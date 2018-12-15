@@ -7,14 +7,11 @@ jobs:
       - checkout
       - restore_cache: # special step to restore the dependency cache
           key: dependency-cache-{{ checksum "package.json" }}
+
       - run:
           name: Setup Dependencies
           command: npm install
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
+
       - save_cache: # special step to save the dependency cache
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
@@ -22,19 +19,10 @@ jobs:
       - run: # run tests
           name: Run Test and Coverage
           command: |
-            ./cc-test-reporter before-build
             npm test -- --coverage
-            cd client
-            ../cc-test-reporter after-build --exit-code $?
-
-      - run:
-          shell: /bin/bash
-          command: |
-            mkdir test
-          when: always
 
       - store_test_results:
-          path: ./coverage/clover.xml
+          path: ./client/coverage/clover.xml
 
       - store_artifacts:
-          path: ./coverage
+          path: ./client/coverage
