@@ -21,7 +21,11 @@ class Customers extends Component {
           {this.state.customers.map(customer => (
             <li key={customer.id}>
               <div>
-                <img src={customer.avatar} alt={customer.firstName} />
+                <img
+                  src={customer.avatar}
+                  alt={customer.firstName}
+                  className="avatar"
+                />
               </div>
               <div>
                 {customer.firstName} {customer.lastName}

@@ -11,3 +11,8 @@ li {
   padding: 1em;
   border-bottom: 1px dotted #777;
 }
+
+.avatar {
+  width: 100px;
+  height: 100px;
+}
