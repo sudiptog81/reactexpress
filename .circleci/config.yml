@@ -24,7 +24,8 @@ jobs:
           command: |
             ./cc-test-reporter before-build
             npm test -- --coverage
-            ./cc-test-reporter after-build --exit-code $?
+            cd client
+            ../cc-test-reporter after-build --exit-code $?
 
       - run:
           shell: /bin/bash
