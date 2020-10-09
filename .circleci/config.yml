@@ -1,23 +1,24 @@
-version: 2
+version: 2.1
+
+orbs:
+  node: circleci/node@11
+
 jobs:
   build:
-    docker:
-      - image: circleci/node:11
+    test:
+      executor:
+        name: node/default
+        tag: '11'
+
     steps:
       - checkout
-      - restore_cache: # special step to restore the dependency cache
-          key: dependency-cache-{{ checksum "package.json" }}
+
+      - node/install-packages
 
       - run:
-          name: Setup Dependencies
-          command: npm install
-
-      - save_cache: # special step to save the dependency cache
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-      - run: # run tests
-          name: Run Test and Coverage
+          command: npm run test
+      - run:
+          name:
           command: |
             npm test -- --coverage
 
@@ -26,3 +27,8 @@ jobs:
 
       - store_artifacts:
           path: ./client/coverage
+
+workflows:
+  test:
+    jobs:
+      - test
